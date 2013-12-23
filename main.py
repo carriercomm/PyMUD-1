@@ -71,7 +71,7 @@ class Application(tk.Frame):
 if __name__ == "__main__":
   app = Application("#999")
   app.master.title("PyMUD Server Control")
-  app.master.geometry("800x600+200+200")
+  # app.master.geometry("800x600+200+200")
   app.mainloop()
   # server = src.server.Server()
   # server.run()

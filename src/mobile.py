@@ -11,3 +11,5 @@ class Mobile:
     self.hp = {"current": 0,
                "max": 0}
 
+  def hear(self, msg = None):
+    pass
