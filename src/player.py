@@ -6,7 +6,9 @@ Created on Dec 22, 2013
 
 import mobile
 import inspect
+from world import World
 import command.forplayers as player_cmds
+
 
 class Player(mobile.Mobile):
   
@@ -17,6 +19,8 @@ class Player(mobile.Mobile):
     self.conn = kwargs.get("conn")
     self.ip = kwargs.get("addr")
     self.cmd_list = self._loadAllCommands()
+    
+    self.location = self._getLocation()
 
   def hear(self, msg):
 
@@ -49,6 +53,11 @@ class Player(mobile.Mobile):
           obj().executeCmd(self, typed_list[1:])
           return
 
+  def _getLocation(self):
+    
+    # Add location data loading here
+    return (0,0,0)
+
   def recvCmds(self):
     
     while self.connected:
@@ -57,3 +66,9 @@ class Player(mobile.Mobile):
         self._parseCmd(cmd)
       else:
         self.hear("You gonna type something?")
+
+  def handleLogin(self):
+    
+    self.recvCmds()
+    
+    

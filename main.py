@@ -5,9 +5,8 @@ Created on Dec 22, 2013
 '''
 
 import Tkinter as tk
-import multiprocessing as multiproc
 import threading
-import src.server
+from src import server, world
 
 
 class Application(tk.Frame):
@@ -64,7 +63,10 @@ class Application(tk.Frame):
 
   def _run(self):
 
-    self.server = src.server.Server()
+    self.server = server.Server()
+    self.server.world = world.World()
+    self.server.world.build()
+
     self._createWidgets()
     self._gridWidgets()
 

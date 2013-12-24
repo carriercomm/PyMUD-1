@@ -2,10 +2,11 @@
 # vim: tabstop=4 : expandtab : shiftwidth=4
 
 from __future__ import division
-import socket, sys, time, threading, yaml, re, urllib, decimal
+import socket, threading, re, urllib
 
 import player
 import color
+
 
 class Server:
     """ Sets up connection and listening for player login """
@@ -18,6 +19,8 @@ class Server:
         self.log = logcallback
         self.locIP = None
         self.extIP = None
+        
+        self.world = None
 
     def localIP (self, ifname = 'lo'):
         """ Return: local IP """
@@ -34,6 +37,8 @@ class Server:
             print (
                 color.red + "No router connection. "
                 "Server running on localhost only." + color.reset)
+        except:
+          print "Unable to connect to 8.8.8.8 -- Hope it all works out. :/ "
 
     def externalIP (self):
         """ Return: External IP """
@@ -69,13 +74,14 @@ class Server:
 
     def listenForConnections (self):
 
-        while True:
+        while self.running:
           self.socket.listen(1)
           conn, addr = self.socket.accept()
           if self.running:
             print "Player is connecting from " + list(addr)[0] + " ..."
             new_player = player.Player(conn = conn, addr = addr)
-            threading.Thread(target = new_player.recvCmds).start()
+            self.world.moveObj(new_player.location, new_player)
+            threading.Thread(target = new_player.handleLogin).start()
           else:
             print "Fake connection force closing socket"
             return
