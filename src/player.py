@@ -50,7 +50,7 @@ class Player(mobile.Mobile):
     for obj in self.cmd_list:
       for doc in obj.__doc__.split():
         if self._disambiguateCmd(typed_list[0], doc):
-          obj().executeCmd(self, typed_list[1:])
+          obj().executeCmd(self, typed_list)
           return
 
   def _getLocation(self):

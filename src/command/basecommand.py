@@ -16,6 +16,8 @@ class BaseCommand:
     self.msg = {"self": [],
                 "target": [],
                 "room": []}
+    self.isinterface = False
+    self.interface_border = "=" * 80
 
   def playerHear(self, msg):
 
@@ -43,6 +45,9 @@ class BaseCommand:
 
   def _final(self):
 
+    if self.isinterface:
+      self.msg["self"].insert(0, self.interface_border)
+      self.msg["self"].append(self.interface_border)
     if self.player:
       self.player.hear("\n".join(self.msg["self"]))
     if self.target:
@@ -51,7 +56,8 @@ class BaseCommand:
   def executeCmd(self, player, args = None):
 
     self.player = player
-    self.args = args
+    self.cmd_entered = args[0]
+    self.args = args[1:]
 
     self.action()
     self.buildString()

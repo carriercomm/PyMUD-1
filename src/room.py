@@ -10,6 +10,7 @@ class Room:
     
     self.coords = (0,0,0)
     self.name = name
+    self.description = "! This room is not described !"
     self.contents = set()
     self.exits = {}
   

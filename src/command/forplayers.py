@@ -5,19 +5,20 @@ Created on Dec 22, 2013
 '''
 
 from basecommand import BaseCommand as bc
-from world import World
+from src.world import World
 
 # Classes in this module should be in alphabetical order
 
 class Look(bc):
   """look"""
   
-  def buildString(self):
+  def action(self):
     
     room = World.rooms.get(str(self.player.location))
-    if room
-  
-  def action(self):
+    if room:
+      self.playerHear(room.name)
+      self.playerHear(self.interface_border)
+      self.playerHear(room.description)
 
 
 class ShowStats(bc):
@@ -25,6 +26,5 @@ class ShowStats(bc):
 
   def action(self):
 
-    self.playerHear("=" * 80)
+    self.isinterface = True
     self.playerHear("HP: {}".format(self.player.hp["max"]))
-    self.playerHear("=" * 80)
