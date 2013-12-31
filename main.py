@@ -69,6 +69,7 @@ class Application(tk.Frame):
 
     self._createWidgets()
     self._gridWidgets()
+    self._startServer()
 
 if __name__ == "__main__":
   app = Application("#999")

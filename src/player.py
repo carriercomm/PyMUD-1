@@ -5,16 +5,17 @@ Created on Dec 22, 2013
 '''
 
 import mobile
+import socket
 import inspect
-from world import World
 import command.forplayers as player_cmds
-
+import random
 
 class Player(mobile.Mobile):
   
   def __init__(self, **kwargs):
     mobile.Mobile.__init__(self)
 
+    self.name = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     self.connected = True
     self.conn = kwargs.get("conn")
     self.ip = kwargs.get("addr")
@@ -25,6 +26,10 @@ class Player(mobile.Mobile):
   def hear(self, msg):
 
     self.conn.send(msg + "\n")
+
+  def getStringLocation(self):
+    
+    return str(self.location)
 
   def _loadAllCommands(self):
 
@@ -58,17 +63,30 @@ class Player(mobile.Mobile):
     # Add location data loading here
     return (0,0,0)
 
-  def recvCmds(self):
+  def save(self):
+    
+    self.hear("If there was anything to save, now would be the time...")
+
+  def logout(self):
+    
+    self.hear("Thanks for playing!")
+    self.conn.close()
+    self.connected = False
+
+  def _recvCmds(self):
     
     while self.connected:
-      cmd = self.conn.recv(2048).strip()
-      if cmd:
-        self._parseCmd(cmd)
-      else:
-        self.hear("You gonna type something?")
+      try:
+        cmd = self.conn.recv(2048).strip()
+        if cmd:
+          self._parseCmd(cmd)
+        else:
+          self.hear("You gonna type something?")
+      except socket.error, msg:
+        print msg
 
   def handleLogin(self):
     
-    self.recvCmds()
+    self._recvCmds()
     
     

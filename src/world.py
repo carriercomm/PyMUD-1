@@ -14,7 +14,7 @@ class World:
   def newRoom(self, name, **kwargs):
     
     new_room = room.Room(name, **kwargs)
-    self.rooms[str(new_room.coords)] = new_room
+    self.rooms[new_room.getStringCoords()] = new_room
 
   def moveObj(self, loc, obj):
     
@@ -30,3 +30,4 @@ class World:
     # this will be where the data will be read and loaded
     # when there's a pre-exisitng world
     self.newRoom("Starting Room")
+    

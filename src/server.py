@@ -118,7 +118,7 @@ def assignEmail (player):
                          "If you'd rather not, just press enter",
                          color.gray)
     if email == None: return
-    if email == "":
+    if email == "":22
         player.error("No email address recorded. You will not receive "
                      "emails at all. Ever. \nFor anything.")
     else:

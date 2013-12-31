@@ -13,7 +13,11 @@ class Room:
     self.description = "! This room is not described !"
     self.contents = set()
     self.exits = {}
-  
+
+  def getStringCoords(self):
+    
+    return str(self.coords)
+
   def addObj(self, obj):
     
     self.contents.add(obj)
