@@ -12,9 +12,10 @@ import random
 
 class Player(mobile.Mobile):
   
-  def __init__(self, **kwargs):
+  def __init__(self, server, **kwargs):
     mobile.Mobile.__init__(self)
 
+    self.server = server
     self.name = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     self.connected = True
     self.conn = kwargs.get("conn")
@@ -65,7 +66,8 @@ class Player(mobile.Mobile):
 
   def save(self):
     
-    self.hear("If there was anything to save, now would be the time...")
+    if self.connected:
+      self.hear("If there was anything to save, now would be the time...")
 
   def logout(self):
     
@@ -84,6 +86,8 @@ class Player(mobile.Mobile):
           self.hear("You gonna type something?")
       except socket.error, msg:
         print msg
+        self.connected = False
+        self.save()
 
   def handleLogin(self):
     

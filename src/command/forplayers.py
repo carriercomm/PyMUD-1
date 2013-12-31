@@ -14,7 +14,7 @@ class Look(bc):
   def action(self):
     
     if self.room:
-      msg = [self.room.name,
+      msg = [self.room.name + " {}".format(self.room.coords),
              self.interface_border,
              self.room.description,
              "Exits: {}".format(", ".join(self.room.exits.keys()))]
@@ -50,4 +50,4 @@ class ShowStats(bc):
   def action(self):
 
     self.isinterface = True
-    self.sendMsg("HP: {}".format(self.player.hp["max"]))
+    self.sendMsg("HP: {}".format(self.player.hp["max"]), "player")

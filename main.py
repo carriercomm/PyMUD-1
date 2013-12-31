@@ -6,7 +6,10 @@ Created on Dec 22, 2013
 
 import Tkinter as tk
 import threading
-from src import server, world
+
+from src import server
+from src import world
+from src.tkdialog.newroomdialog import NewRoomDialog
 
 
 class Application(tk.Frame):
@@ -32,7 +35,12 @@ class Application(tk.Frame):
 
   def _stopServer(self):
 
-    self.server.forceFakeConnection()
+    print "This button is broken..."
+    # self.server.forceFakeConnection()
+
+  def _createNewRoom(self):
+
+    NewRoomDialog(self, self.server.world)
 
   def _gridWidgets(self):
     
@@ -45,6 +53,10 @@ class Application(tk.Frame):
     self.stop_server_button.grid(row = 0,
                                  column = 1,
                                  sticky = tk.NW)
+    self.new_room_button.grid(column = 0,
+                              row = self.grid_size()[1],
+                              padx = 5,
+                              pady = 5)
 
   def _createWidgets(self):
 
@@ -60,6 +72,10 @@ class Application(tk.Frame):
                                          bg = self.bg,
                                          command = self._stopServer,
                                          width = 12)
+    self.new_room_button = tk.Button(self,
+                                     text = "New Room",
+                                     bg = self.bg,
+                                     command = self._createNewRoom)
 
   def _run(self):
 

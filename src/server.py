@@ -79,7 +79,7 @@ class Server:
           conn, addr = self.socket.accept()
           if self.running:
             print "Player is connecting from " + list(addr)[0] + " ..."
-            new_player = player.Player(conn = conn, addr = addr)
+            new_player = player.Player(self, conn = conn, addr = addr)
             self.world.moveObj(new_player.location, new_player)
             threading.Thread(target = new_player.handleLogin).start()
           else:

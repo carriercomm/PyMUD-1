@@ -1,6 +1,7 @@
 
-from src.basecommand import BaseCommand as bc
+from src.command.basecommand import BaseCommand as bc
 from src.world import World
+import src.constants as const
 
 # All classes in this module should be in alphabetical order
 
@@ -9,17 +10,18 @@ class CreateRoom(bc):
 
   def action(self):
 
-    x,y,z = self.room.coords
-  
-    if room == None:
-      admin.hear("You're nowhere. Something's broke.", color.red)
+    if self.room == None:
+      self.sendMsg("You're nowhere", "players")
       return
-    if direction in room.exits.keys():
-      admin.error("The room already exists, you goof.")
+    x, y, z = self.player.location
+
+    typed_direction = self.args[0]
+    direction = const.DIRECTION_SHORTCUT.get(typed_direction)
+    if not direction:
+      self.sendMsg("You didn't enter a valid direction", "player")
       return
   
-    new_room = stuff.Room()
-    new_room.coordinates = room.coordinates
+
     if direction == "north":       y += 1
     elif direction == "south":     y -= 1
     elif direction == "east":      x += 1
@@ -30,8 +32,8 @@ class CreateRoom(bc):
     elif direction == "northwest": y += 1 ; x -= 1
     elif direction == "up":        z += 1
     elif direction == "down":      z -= 1
-    new_room.coordinates = "%s %s %s" % (str(x), str(y), str(z))
-    if new_room.coordinates in stuff.ROOMS.keys():
+    coords = (x, y, z)
+    if str(coords) in self.player.server.world.rooms.keys()
         admin.error("You're trying to build over a room that already "
                     "exists. If you would like to proceed, type 'link', "
                     "otherwise press <enter>.")
